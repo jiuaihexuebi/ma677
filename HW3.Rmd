@@ -2,7 +2,9 @@
 title: "MA677 HW3"
 author: "Kecheng Liang"
 date: "2019/3/8"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
