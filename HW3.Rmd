@@ -1,0 +1,59 @@
+---
+title: "MA677 HW3"
+author: "Kecheng Liang"
+date: "2019/3/8"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+pacman::p_load("dyplyr","ggplot2","plotly","tidyverse","readr","magrittr","RCur1","ACSWR")
+```
+
+#1
+```{r}
+hw3q1 <- read.table("maybe_uniform.txt")
+test1 <- c(hw3q1$V1,hw3q1$V2,hw3q1$V3,hw3q1$V4,hw3q1$V5)
+ks.test(test1,"punif")
+x <- seq(-5, 5, by=0.01)
+fx <- ifelse(x > 0 & x <=0.5, 3/2,
+   ifelse(x > 0.5 & x < 1,  0.5, 0))
+plot(x,fx)
+ks.test(fx,"punif")
+#Based on the result in ks test, the model below is better than the Uniform
+```
+
+#2
+```{r}
+hw3q2 <- read.table("maybe_normal.txt")
+a <- c(hw3q2$V1,hw3q2$V2,hw3q2$V3,hw3q2$V4,hw3q2$V5)
+test2 <- (c(hw3q2$V1,hw3q2$V2,hw3q2$V3,hw3q2$V4,hw3q2$V5)-rep(26,50))/2
+ks.test(test2,"pnorm")
+qqnorm(a)
+hist(a)
+#We fail to reject the null hypothesis.
+```
+
+#3
+```{r}
+hw3q3 <- read.table("maybe_same_1.txt")
+b <- c(hw3q3$V1,hw3q3$V2,hw3q3$V3,hw3q3$V4,hw3q3$V5)
+hw3q3.2 <- read.table("maybe_same_2.txt")
+c <- c(hw3q3.2$V1,hw3q3.2$V2,hw3q3.2$V3,hw3q3.2$V4,hw3q3.2$V5)
+ks.test(b,c)
+ks.test(b+2,c)
+#Since the p value from the first test is larger than 0.05, we fail to reject the null hypothesis. Those two are from the same distribution. And the second p-value is smaller than 0.05, we reject the null hypothesis.
+```
+
+#4
+```{r}
+hw3q4 <- readRDS("norm_sample.Rdata")
+q4_ecdf=ecdf(hw3q4)
+summary(q4_ecdf)
+plot.ecdf(hw3q4)
+us=rnorm(25)
+ks.test(hw3q4,us)
+```
+
+
+
